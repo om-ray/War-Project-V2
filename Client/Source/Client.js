@@ -1,6 +1,15 @@
 var canvas = document.getElementById("GameCanvas");
 var ctx = canvas.getContext("2d");
+//Resizes canvas
+function resizeCanvas() {
+  var width = document.documentElement.clientWidth - 25;
+  var height = document.documentElement.clientHeight - 22;
 
+  canvas.width = width;
+  canvas.height = height;
+}
+
+//Player object
 var Player = function (x, y, width, height, color) {
   this.x = x;
   this.y = y;
@@ -14,23 +23,22 @@ var Player = function (x, y, width, height, color) {
   };
 };
 
-function resizeCanvas() {
-  var width = document.documentElement.clientWidth - 25;
-  var height = document.documentElement.clientHeight - 22;
 
-  canvas.width = width;
-  canvas.height = height;
-}
-
+//Instantiated Player object
 var Player1 = new Player(10, 10, 10, 10, "black");
 
-var Drawing_Loop = function () {
+//Drawing loop !!IMPORTANT: ALL DRAWING WILL OCCUR HERE!!
+var Drawing_loop = function () {
   Player1.draw();
 };
 
+//Game loop !!ALL NECESSARY FUNCTIONS WILL BE CALLED HERE!!
 var Game_loop = function () {
   resizeCanvas();
-  Drawing_Loop();
+  Drawing_loop();
 };
 
-setInterval(Game_loop(), 60);
+//Set interval !!LOOPS EVERYTHING IN GAME LOOP!!
+setInterval(function () {
+  Game_loop();
+}, 60);
