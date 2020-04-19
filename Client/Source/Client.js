@@ -213,6 +213,7 @@ var Bullet = function (player) {
   //Draws bullets
   this.draw = function () {
     ctx.fillStyle = "#0099cc";
+    //draw left
     if (this.direction == "left") {
       this.collisionBox = {
         x: this.x - 3,
@@ -224,6 +225,7 @@ var Bullet = function (player) {
       ctx.arc(this.x, this.y + 20, 3, 0, 2 * Math.PI);
       ctx.fill();
     }
+    //draw up
     if (this.direction == "up") {
       this.collisionBox = {
         x: this.x + 17,
@@ -235,6 +237,7 @@ var Bullet = function (player) {
       ctx.arc(this.x + 20, this.y, 3, 0, 2 * Math.PI);
       ctx.fill();
     }
+    //draw right
     if (this.direction == "right") {
       this.collisionBox = {
         x: this.x + 40 - 3,
@@ -246,6 +249,7 @@ var Bullet = function (player) {
       ctx.arc(this.x + 40, this.y + 20, 3, 0, 2 * Math.PI);
       ctx.fill();
     }
+    //draw down
     if (this.direction == "down") {
       this.collisionBox = {
         x: this.x + 20 - 3,
@@ -261,15 +265,19 @@ var Bullet = function (player) {
 
   //Moves bullets
   this.move = function () {
+    //Move left
     if (this.direction == "left") {
       this.x -= this.speedX;
     }
+    //Move up
     if (this.direction == "up") {
       this.y -= this.speedY;
     }
+    //Move right
     if (this.direction == "right") {
       this.x += this.speedX;
     }
+    //Move down
     if (this.direction == "down") {
       this.y += this.speedY;
     }
@@ -446,7 +454,7 @@ var Drawing_loop = function () {
               Player2.bulletList.splice(u, 1);
               //reduces Player1's health
               Player1.health -= 10;
-              //respawns Player1 with full health
+              //respawns Player1 with full health and increases Player2's score by one
               if (Player1.health <= 0) {
                 Player1.health = 100;
                 Player2.score += 1;
@@ -466,7 +474,7 @@ var Drawing_loop = function () {
               Player1.bulletList.splice(u, 1);
               //reduces Player2's health
               Player2.health -= 10;
-              //respawns Player2 with full health
+              //respawns Player2 with full health and increases Player1's score by one
               if (Player2.health <= 0) {
                 Player2.health = 100;
                 Player1.score += 1;
