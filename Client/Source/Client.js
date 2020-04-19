@@ -25,6 +25,7 @@ var Player = function (x, y, healthMax, color) {
   this.height = 40;
   this.health = 100;
   this.healthMax = healthMax;
+  this.score = 0;
   this.movementDirection = {
     left: false,
     right: false,
@@ -47,6 +48,7 @@ var Player = function (x, y, healthMax, color) {
     height: this.height,
   };
 
+  //Direction to draw the player in
   this.drawDirection = function (direction) {
     //Face left
     if (direction == "left") {
@@ -123,6 +125,10 @@ var Player = function (x, y, healthMax, color) {
   };
   //Player draw function
   this.draw = function () {
+    //Draw score
+    ctx.strokeStyle = this.color
+    ctx.strokeText("Score: " + this.score, this.x, this.y + 50);
+
     //Draw health bar
     var healthBarWidth = (30 * this.health) / this.healthMax;
     ctx.fillStyle = "red";
@@ -174,8 +180,8 @@ var Bullet = function (player) {
   this.player = player;
   this.x = this.player.x;
   this.y = this.player.y;
-  this.width = 6;
-  this.height = 6;
+  this.width = 12;
+  this.height = 12;
   this.speedX = 16;
   this.speedY = 16;
   this.direction = this.player.lastFacingDirection;
@@ -190,12 +196,18 @@ var Bullet = function (player) {
     !this.player.facingDirection.down
   ) {
     this.direction = this.player.lastFacingDirection;
-  } else {
-    for (let i in this.player.facingDirection) {
-      if (this.player.facingDirection[i]) {
-        this.direction = this.player.facingDirection[i];
-      }
-    }
+  }
+  if (this.player.facingDirection.left) {
+    this.direction = "left";
+  }
+  if (this.player.facingDirection.right) {
+    this.direction = "right";
+  }
+  if (this.player.facingDirection.down) {
+    this.direction = "down";
+  }
+  if (this.player.facingDirection.up) {
+    this.direction = "up";
   }
 
   //Draws bullets
@@ -433,7 +445,12 @@ var Drawing_loop = function () {
               //removes bullet from array
               Player2.bulletList.splice(u, 1);
               //reduces Player1's health
-              Player1.health -= 5;
+              Player1.health -= 10;
+              //respawns Player1 with full health
+              if (Player1.health <= 0) {
+                Player1.health = 100;
+                Player2.score += 1;
+              }
             }
           }
         }
@@ -448,7 +465,12 @@ var Drawing_loop = function () {
               //removes bullet from array
               Player1.bulletList.splice(u, 1);
               //reduces Player2's health
-              Player2.health -= 5;
+              Player2.health -= 10;
+              //respawns Player2 with full health
+              if (Player2.health <= 0) {
+                Player2.health = 100;
+                Player1.score += 1;
+              }
             }
           }
         }
